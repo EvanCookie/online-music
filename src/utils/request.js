@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Message } from '@arco-design/web-vue'
 
-const baseURL = '/api'
+// 配置环境变量
+const baseURL = import.meta.env.VITE_BASE_API_URL
 
 const http = axios.create({
   baseURL,

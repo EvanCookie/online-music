@@ -31,15 +31,15 @@ export default defineConfig({
     }
   },
   // 代理
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://localhost:3000',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, '')
+  //     }
+  //   }
+  // },
   css: {
     preprocessorOptions: {
       scss: {
