@@ -38,7 +38,10 @@ const toSearchPage = () => {
   <div class="page-header">
     <div class="container">
       <div class="header-title">
-        <h1>RenMusic</h1>
+        <h1 @click="router.push('/')">
+          <img class="logo" src="../../../src/assets/images/logo.png" alt="" />
+          RenMusic
+        </h1>
       </div>
 
       <div class="header-content">
@@ -110,6 +113,9 @@ $hover-color: #c71721;
         color: $primary-color;
         font-weight: 300;
         cursor: pointer;
+        .logo {
+          width: 40px;
+        }
       }
     }
 
