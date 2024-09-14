@@ -7,7 +7,9 @@ import { RouterView } from 'vue-router'
 <template>
   <div id="layout" class="theme-black">
     <Header />
-    <router-view />
+    <div class="page-main">
+      <router-view />
+    </div>
     <Footer />
   </div>
 </template>
@@ -18,10 +20,5 @@ $bgc-color-1: #1f1f1f;
 // 黑色背景
 .theme-black {
   background-color: $bgc-color-1;
-}
-
-// 布局容器
-#layout {
-  height: 100%;
 }
 </style>

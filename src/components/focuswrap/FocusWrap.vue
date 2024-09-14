@@ -1,11 +1,11 @@
 <script setup name="FocusWrap">
 import { ref, onMounted } from 'vue'
-import { reqBannerList } from '@/api/discover'
+import { reqBannerData } from '@/api/discover'
 
 const bannerList = ref([])
 const getBannerList = async () => {
   // 请求banner数据
-  const { data } = await reqBannerList()
+  const { data } = await reqBannerData()
   // 保存
   bannerList.value = data.banners
 }
@@ -17,54 +17,60 @@ onMounted(() => {
 
 <template>
   <div class="focus-box">
-    <a-carousel
-      animation-name="card"
-      show-arrow="hover"
-      :auto-play="{ interval: 4000, hoverToPause: true }"
-      indicator-position="outer"
-      indicator-type="line"
-    >
-      <a-carousel-item v-for="item in bannerList" :key="item.imageUrl">
-        <img :src="item.imageUrl" />
-      </a-carousel-item>
-    </a-carousel>
+    <div class="inside-container">
+      <a-carousel
+        animation-name="card"
+        show-arrow="hover"
+        :auto-play="{ interval: 4000, hoverToPause: true }"
+        indicator-position="outer"
+        indicator-type="line"
+      >
+        <a-carousel-item v-for="item in bannerList" :key="item.imageUrl">
+          <img :src="item.imageUrl" />
+        </a-carousel-item>
+      </a-carousel>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .focus-box {
-  margin: 30px 0;
-  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  .inside-container {
+    margin: 0 auto;
+    width: 1200px;
 
-  :deep(.arco-carousel) {
-    width: 100%;
-    height: 300px;
-    cursor: pointer;
+    :deep(.arco-carousel) {
+      width: 100%;
+      height: 300px;
+      cursor: pointer;
 
-    .arco-carousel-card {
-      div {
-        width: 62.5%;
-      }
-    }
-
-    // 箭头样式
-    .arco-carousel-arrow {
-      div {
-        width: 60px;
-        height: 60px;
-        background-color: rgba(255, 255, 255, 0.4);
-
-        svg {
-          font-size: 20px;
-          color: #000;
+      .arco-carousel-card {
+        div {
+          width: 62.5%;
         }
       }
 
-      .arco-carousel-arrow-left {
-        left: -75px;
-      }
-      .arco-carousel-arrow-right {
-        right: -75px;
+      // 箭头样式
+      .arco-carousel-arrow {
+        div {
+          width: 60px;
+          height: 60px;
+          background-color: rgba(255, 255, 255, 0.4);
+
+          svg {
+            font-size: 20px;
+            color: #000;
+          }
+        }
+
+        .arco-carousel-arrow-left {
+          left: -75px;
+        }
+        .arco-carousel-arrow-right {
+          right: -75px;
+        }
       }
     }
   }

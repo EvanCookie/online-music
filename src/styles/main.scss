@@ -3,7 +3,6 @@
 body,
 html {
   height: 100%;
-  overflow: hidden;
 }
 
 /* 设置网页统一的字体大小、行高、字体系列相关属性 */
@@ -16,4 +15,5 @@ html {
     sans-serif;
   color: #333;
   height: 100%;
+  letter-spacing: 1px;
 }

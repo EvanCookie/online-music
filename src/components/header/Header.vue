@@ -47,7 +47,7 @@ const toSearchPage = () => {
       <div class="header-content">
         <ul class="header-nav">
           <li>
-            <router-link class="link" to="/" active-class="active">推荐 </router-link>
+            <router-link class="link" to="/" active-class="active">发现</router-link>
           </li>
           <li>
             <router-link class="link" to="/palylist" active-class="active"
@@ -97,7 +97,7 @@ $hover-color: #c71721;
 
 .page-header {
   height: 82px;
-  box-shadow: 0 2px 10px 0 rgba(52, 52, 52, 0.1);
+  box-shadow: 0 2px 10px 0 rgba(52, 52, 52, 0.3);
 
   // 版心容器
   .container {

@@ -20,6 +20,7 @@ i {
 /* 去除a标签默认下划线，并设置默认文字颜色 */
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 /* 设置img的垂直对齐方式为居中对齐，去除img默认下间隙 */
