@@ -1,9 +1,10 @@
 <script setup name="Discover">
-import FocusWrap from '@/components/focuswrap/FocusWrap.vue'
-import PalylistItem from '@/components/palylistitem/PalylistItem.vue'
+import FocusWrap from '@/components/focus-wrap/FocusWrap.vue'
+import PalylistItem from '@/components/palylist-item/PalylistItem.vue'
+import NewsongItem from '@/components/newsong-item/NewsongItem.vue'
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { reqPalylistData } from '@/api/discover'
+import { reqPalylistData, reqNewSonglistData } from '@/api/discover'
 
 // 推荐歌单数据
 const palylistData = ref([])
@@ -14,8 +15,16 @@ const getPalylistData = async () => {
   palylistData.value = data.result
 }
 
+// 推荐音乐数据
+const songlistData = ref([])
+const getsonglistData = async () => {
+  const { data } = await reqNewSonglistData(6)
+  songlistData.value = data.result
+}
+
 onMounted(() => {
   getPalylistData()
+  getsonglistData()
 })
 </script>
 
@@ -42,17 +51,19 @@ onMounted(() => {
     </div>
 
     <!-- 新歌推荐 -->
-    <div class="card">
+    <div class="newsong-box card">
       <div class="inside-container">
         <div class="card-header">
           <div class="title">
             <h2>新歌推荐</h2>
           </div>
           <div class="more">
-            <router-link to="/palylist">更多</router-link>
+            <router-link to="/">更多</router-link>
           </div>
         </div>
-        <div class="card-content">sda</div>
+        <div class="card-content">
+          <NewsongItem v-for="item in songlistData" :key="item.id" :item="item" />
+        </div>
       </div>
     </div>
   </div>
@@ -92,6 +103,15 @@ $hover-color: #c71721;
 
   // 歌单推荐
   .palylist-box {
+    .card-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
+
+  // 新歌推荐
+  .newsong-box {
     .card-content {
       display: flex;
       justify-content: space-between;

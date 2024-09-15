@@ -14,23 +14,19 @@ const toPlayAudio = (id) => {
 </script>
 
 <template>
-  <div class="palylistitem">
+  <div class="palylist-item">
     <div class="poster-img" @click="toPlayListDetail(item.id)">
       <img :src="item.picUrl" alt="" />
       <div class="paly-bar" @click.stop="toPlayAudio(item.id)">
         <img src="../../assets/images/play-bar.png" alt="" />
       </div>
     </div>
-    <div class="name" @click="toPlayListDetail(id)">{{ item.name }}</div>
+    <div class="name" @click="toPlayListDetail(item.id)">{{ item.name }}</div>
   </div>
 </template>
 
 <style scoped lang="scss">
-$primary-color: #f8f8f8;
-$secondary-color: #909399;
-$hover-color: #c71721;
-
-.palylistitem {
+.palylist-item {
   margin-bottom: 25px;
   width: 224px;
   cursor: pointer;
