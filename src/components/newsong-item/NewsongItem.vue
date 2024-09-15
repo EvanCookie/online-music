@@ -17,8 +17,8 @@ const toSong = (id) => {
       </div>
     </div>
     <div class="info">
-      <div class="title">{{ item.name }}</div>
-      <div class="artist">
+      <div class="title ellipsis">{{ item.name }}</div>
+      <div class="artist ellipsis">
         <span v-for="i in item.song.artists" :key="i.id">{{ i.name }}</span>
       </div>
     </div>
@@ -68,7 +68,7 @@ const toSong = (id) => {
   // 歌曲说明
   .info {
     padding: 0 36px;
-    flex: 1;
+    width: 263px;
 
     .title {
       font-size: 16px;

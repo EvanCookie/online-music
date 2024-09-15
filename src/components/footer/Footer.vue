@@ -21,11 +21,6 @@ const presentTime = ref(new Date().getFullYear())
 </template>
 
 <style scoped lang="scss">
-$bgc-color-2: #282828;
-$primary-color: #f8f8f8;
-$secondary-color: #909399;
-$hover-color: #c71721;
-
 .page-footer {
   padding: 20px 0;
   background-color: $bgc-color-2;

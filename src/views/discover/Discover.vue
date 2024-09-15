@@ -2,29 +2,36 @@
 import FocusWrap from '@/components/focus-wrap/FocusWrap.vue'
 import PalylistItem from '@/components/palylist-item/PalylistItem.vue'
 import NewsongItem from '@/components/newsong-item/NewsongItem.vue'
+import ArtistItem from '@/components/artist-item/ArtistItem.vue'
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { reqPalylistData, reqNewSonglistData } from '@/api/discover'
+import { reqPalylistData, reqNewSonglistData, reqHotArtistData } from '@/api/discover'
 
 // 推荐歌单数据
 const palylistData = ref([])
 const getPalylistData = async () => {
-  // 请求数据
   const { data } = await reqPalylistData(10)
-  // 保存
   palylistData.value = data.result
 }
 
 // 推荐音乐数据
 const songlistData = ref([])
-const getsonglistData = async () => {
+const getSonglistData = async () => {
   const { data } = await reqNewSonglistData(6)
   songlistData.value = data.result
 }
 
+// 热门歌手数据
+const hotartistData = ref([])
+const getHotartistData = async () => {
+  const { data } = await reqHotArtistData(12)
+  hotartistData.value = data.artists
+}
+
 onMounted(() => {
   getPalylistData()
-  getsonglistData()
+  getSonglistData()
+  getHotartistData()
 })
 </script>
 
@@ -32,7 +39,6 @@ onMounted(() => {
   <div class="discover-page">
     <!-- 轮播 -->
     <FocusWrap />
-
     <!-- 歌单推荐 -->
     <div class="palylist-box card">
       <div class="inside-container">
@@ -49,7 +55,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
-
     <!-- 新歌推荐 -->
     <div class="newsong-box card">
       <div class="inside-container">
@@ -66,14 +71,26 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <!-- 热门歌手 -->
+    <div class="hotartist-box card">
+      <div class="inside-container">
+        <div class="card-header">
+          <div class="title">
+            <h2>热门歌手</h2>
+          </div>
+          <div class="more">
+            <router-link to="/artist">更多</router-link>
+          </div>
+        </div>
+        <div class="card-content">
+          <ArtistItem v-for="item in hotartistData" :key="item.id" :item="item" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-$primary-color: #f8f8f8;
-$secondary-color: #909399;
-$hover-color: #c71721;
-
 .discover-page {
   // 卡片公共样式
   .card {
@@ -98,24 +115,11 @@ $hover-color: #c71721;
           color: $hover-color;
         }
       }
-    }
-  }
-
-  // 歌单推荐
-  .palylist-box {
-    .card-content {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-  }
-
-  // 新歌推荐
-  .newsong-box {
-    .card-content {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      .card-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
     }
   }
 }

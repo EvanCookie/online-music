@@ -14,24 +14,6 @@ const toSearchPage = () => {
     }
   })
 }
-// const nevList = ref([
-//   {
-//     title: '推荐',
-//     path: '/'
-//   },
-//   {
-//     title: '歌单',
-//     path: '/'
-//   },
-//   {
-//     title: '',
-//     path: '/'
-//   },
-//   {
-//     title: '推荐',
-//     path: '/'
-//   }
-// ])
 </script>
 
 <template>
@@ -91,10 +73,6 @@ const toSearchPage = () => {
 </template>
 
 <style scoped lang="scss">
-$primary-color: #f8f8f8;
-$secondary-color: #909399;
-$hover-color: #c71721;
-
 .page-header {
   height: 82px;
   box-shadow: 0 2px 10px 0 rgba(52, 52, 52, 0.3);

@@ -21,7 +21,7 @@ const toPlayAudio = (id) => {
         <img src="../../assets/images/play-bar.png" alt="" />
       </div>
     </div>
-    <div class="name" @click="toPlayListDetail(item.id)">{{ item.name }}</div>
+    <div class="name ellipsis" @click="toPlayListDetail(item.id)">{{ item.name }}</div>
   </div>
 </template>
 
@@ -68,9 +68,6 @@ const toPlayAudio = (id) => {
     font-size: 16px;
     height: 26px;
     line-height: 26px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     color: $primary-color;
 
     &:hover {

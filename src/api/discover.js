@@ -22,7 +22,7 @@ export const reqNewSonglistData = (limit = 10) => {
 }
 
 // 热门歌手
-export const reqHotArtistData = (limit) => {
+export const reqHotArtistData = (limit = 6) => {
   return http.get('/top/artists', {
     params: { limit }
   })
