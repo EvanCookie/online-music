@@ -1,4 +1,4 @@
-<script setup name="PalylistDetail"></script>
+<script setup name="PlaylistDetail"></script>
 
 <template>
   <h2>歌单详情</h2>

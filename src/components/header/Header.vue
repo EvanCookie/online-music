@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 const router = useRouter()
+import { nevList } from './config/index'
+
 // 搜索关键字
 const keyWords = ref('')
 
@@ -28,23 +30,10 @@ const toSearchPage = () => {
 
       <div class="header-content">
         <ul class="header-nav">
-          <li>
-            <router-link class="link" to="/" active-class="active">发现</router-link>
-          </li>
-          <li>
-            <router-link class="link" to="/palylist" active-class="active"
-              >歌单</router-link
-            >
-          </li>
-          <li>
-            <router-link class="link" to="/toplist" active-class="active"
-              >排行榜</router-link
-            >
-          </li>
-          <li>
-            <router-link class="link" to="/artist" active-class="active"
-              >歌手</router-link
-            >
+          <li v-for="nav in nevList" :key="nav.title">
+            <router-link class="link" :to="nav.path" active-class="active">{{
+              nav.title
+            }}</router-link>
           </li>
         </ul>
       </div>

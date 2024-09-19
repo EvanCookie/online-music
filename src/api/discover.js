@@ -1,3 +1,4 @@
+// limit：数据的数量
 import http from '@/utils/request'
 
 // Banner
@@ -7,14 +8,14 @@ export const reqBannerData = (type = 0) => {
   })
 }
 
-// 推荐歌单 limit（歌单数）
-export const reqPalylistData = (limit = 10) => {
+// 推荐歌单 limit
+export const reqPlaylistData = (limit = 10) => {
   return http.get('/personalized', {
     params: { limit }
   })
 }
 
-// 新歌推荐 limit（歌曲数）
+// 新歌推荐
 export const reqNewSonglistData = (limit = 10) => {
   return http.get('/personalized/newsong', {
     params: { limit }

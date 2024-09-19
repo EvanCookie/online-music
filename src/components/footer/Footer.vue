@@ -22,6 +22,7 @@ const presentTime = ref(new Date().getFullYear())
 
 <style scoped lang="scss">
 .page-footer {
+  margin-top: 30px;
   padding: 20px 0;
   background-color: $bgc-color-2;
   // 版心容器

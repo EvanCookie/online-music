@@ -1,4 +1,4 @@
-<script setup name="PalylistItem">
+<script setup name="PlaylistItem">
 defineProps(['item'])
 import { Message } from '@arco-design/web-vue'
 
@@ -14,10 +14,10 @@ const toPlayAudio = (id) => {
 </script>
 
 <template>
-  <div class="palylist-item">
+  <div class="playlist-item">
     <div class="poster-img" @click="toPlayListDetail(item.id)">
-      <img :src="item.picUrl" alt="" />
-      <div class="paly-bar" @click.stop="toPlayAudio(item.id)">
+      <img :src="item.picUrl || item.coverImgUrl" alt="" />
+      <div class="play-bar" @click.stop="toPlayAudio(item.id)">
         <img src="../../assets/images/play-bar.png" alt="" />
       </div>
     </div>
@@ -26,7 +26,7 @@ const toPlayAudio = (id) => {
 </template>
 
 <style scoped lang="scss">
-.palylist-item {
+.playlist-item {
   margin-bottom: 25px;
   width: 224px;
   cursor: pointer;
@@ -44,7 +44,7 @@ const toPlayAudio = (id) => {
       transform: scale(1.1);
     }
 
-    .paly-bar {
+    .play-bar {
       width: 60px;
       height: 60px;
       position: absolute;
@@ -58,7 +58,7 @@ const toPlayAudio = (id) => {
         display 0.3s;
     }
 
-    &:hover .paly-bar {
+    &:hover .play-bar {
       display: block;
     }
   }

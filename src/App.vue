@@ -1,7 +1,8 @@
 <script setup>
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
-import { RouterView } from 'vue-router'
+import { useRoute, RouterView } from 'vue-router'
+const route = useRoute()
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import { RouterView } from 'vue-router'
     <div class="page-main">
       <router-view />
     </div>
-    <Footer />
+    <Footer v-if="!(route.path === '/player')" />
   </div>
 </template>
 

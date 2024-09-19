@@ -7,14 +7,14 @@ export default [
   },
   /* 歌单 */
   {
-    path: '/palylist',
-    component: () => import('@/views/palylist/Palylist.vue'),
-    name: 'palylist'
+    path: '/playlist',
+    component: () => import('@/views/playlist/Playlist.vue'),
+    name: 'playlist'
   },
   {
-    path: '/palylist/:id',
-    component: () => import('@/views/palylist/PalylistDetail.vue'),
-    name: 'palylist-detail',
+    path: '/playlist/:id',
+    component: () => import('@/views/playlist/PlaylistDetail.vue'),
+    name: 'playlist-detail',
     props: true
   },
   /* 排行榜 */
@@ -45,5 +45,10 @@ export default [
     path: '/search',
     component: () => import('@/views/search/Search.vue'),
     name: 'search'
+  },
+  {
+    path: '/player',
+    component: () => import('@/views/player/Player.vue'),
+    name: 'player'
   }
 ]

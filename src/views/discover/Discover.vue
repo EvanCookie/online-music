@@ -1,17 +1,17 @@
 <script setup name="Discover">
 import FocusWrap from '@/components/focus-wrap/FocusWrap.vue'
-import PalylistItem from '@/components/palylist-item/PalylistItem.vue'
+import PlaylistItem from '@/components/playlist-item/PlaylistItem.vue'
 import NewsongItem from '@/components/newsong-item/NewsongItem.vue'
 import ArtistItem from '@/components/artist-item/ArtistItem.vue'
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { reqPalylistData, reqNewSonglistData, reqHotArtistData } from '@/api/discover'
+import { reqPlaylistData, reqNewSonglistData, reqHotArtistData } from '@/api/discover'
 
 // 推荐歌单数据
-const palylistData = ref([])
-const getPalylistData = async () => {
-  const { data } = await reqPalylistData(10)
-  palylistData.value = data.result
+const playlistData = ref([])
+const getPlaylistData = async () => {
+  const { data } = await reqPlaylistData(10)
+  playlistData.value = data.result
 }
 
 // 推荐音乐数据
@@ -29,7 +29,7 @@ const getHotartistData = async () => {
 }
 
 onMounted(() => {
-  getPalylistData()
+  getPlaylistData()
   getSonglistData()
   getHotartistData()
 })
@@ -40,18 +40,18 @@ onMounted(() => {
     <!-- 轮播 -->
     <FocusWrap />
     <!-- 歌单推荐 -->
-    <div class="palylist-box card">
+    <div class="playlist-box card">
       <div class="inside-container">
         <div class="card-header">
           <div class="title">
             <h2>歌单推荐</h2>
           </div>
           <div class="more">
-            <router-link to="/palylist">更多</router-link>
+            <router-link to="/playlist">更多</router-link>
           </div>
         </div>
         <div class="card-content">
-          <PalylistItem v-for="item in palylistData" :key="item.id" :item="item" />
+          <PlaylistItem v-for="item in playlistData" :key="item.id" :item="item" />
         </div>
       </div>
     </div>
