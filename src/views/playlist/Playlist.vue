@@ -1,17 +1,25 @@
 <script setup name="Playlist">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { reqPlaylistCategory, reqPlaylistData } from '@/api/playlist'
 import PlaylistItem from '@/components/playlist-item/PlaylistItem.vue'
+import { smoothScrollToTop } from '@/utils/usertools'
 
 const categoryList = ref([]) // 歌单分类信息
-const activeCategory = ref(0) // 激活的分类
+const currentCategory = ref(-1) // 当前的分类
 const playList = ref([]) // 歌单数据列表
 const order = ref('hot') // 热门hot/最新new
-const cat = ref('全部') // 获取歌单的数据
-const offset = ref(1) // 当前页数
+const cat = ref('全部') // 歌单类型
+const offset = ref(1) // 当前页
+const limit = ref(35) // 每页数据数
 const total = ref(0) // 总条数
+// 计算 - 类型右侧X号是否显示
+const offSearch = computed({
+  get() {
+    return cat.value == '全部' ? false : true
+  }
+})
 
-// 获取歌单分类信息
+// 获取歌单类型
 const getCategoryData = async () => {
   const { data } = await reqPlaylistCategory()
   categoryList.value = data.sub
@@ -20,7 +28,12 @@ const getCategoryData = async () => {
 // 获取歌单列表
 const getPlaylistData = async () => {
   // 传入参数获取数据
-  const { data } = await reqPlaylistData(order.value, cat.value, offset.value)
+  const { data } = await reqPlaylistData(
+    order.value,
+    cat.value,
+    offset.value,
+    limit.value
+  )
 
   // 保存数据
   playList.value = data.playlists
@@ -28,12 +41,17 @@ const getPlaylistData = async () => {
   cat.value = data.cat
 }
 
-// 切换分类
-const clickCategory = (index, e) => {
-  activeCategory.value = index // 保存当前激活选项
-  cat.value = e.target.innerText // 保存激活的category
-  offset.value = 1
-  // 分类数据更新，重新调用接口
+/**
+ * 切换当前歌单类型
+ * @param index 当前的项索引
+ * @param e 当前选择的category
+ */
+const changeCategory = (index, e) => {
+  // 设置相关数据
+  currentCategory.value = index // 保存当前激活选项
+  cat.value = e.target.innerText // 保存当前的category
+  offset.value = 1 // 返回第一页
+  // 重新获取数据
   getPlaylistData()
 }
 
@@ -41,17 +59,17 @@ const clickCategory = (index, e) => {
 const changeCurrent = () => {
   // 获取最新数据
   getPlaylistData()
+  // 回到顶部
   smoothScrollToTop()
 }
 
-function smoothScrollToTop() {
-  const c = document.documentElement.scrollTop || document.body.scrollTop
-  if (c > 0) {
-    window.requestAnimationFrame(smoothScrollToTop)
-
-    // 这里的 0.9 是平滑滚动的速度系数，可以根据需要调整
-    window.scrollTo(0, c * (1 - 0.5))
-  }
+// 点击关闭按钮
+const closeFun = () => {
+  // 重置相关数据
+  cat.value = '全部'
+  currentCategory.value = -1
+  // 重新获取数据
+  getPlaylistData()
 }
 
 onMounted(() => {
@@ -69,8 +87,8 @@ onMounted(() => {
           <li
             v-for="(item, index) in categoryList"
             :key="index"
-            @click="clickCategory(index + 1, $event)"
-            :class="{ active: index + 1 === activeCategory }"
+            @click="changeCategory(index, $event)"
+            :class="{ current: index === currentCategory }"
           >
             {{ item.name }}
           </li>
@@ -80,6 +98,7 @@ onMounted(() => {
       <div class="playlist-ls">
         <div class="playlist-title">
           <h2>{{ cat }}</h2>
+          <div class="off" v-show="offSearch" @click="closeFun"><icon-close /></div>
         </div>
         <div class="playlist-items">
           <PlaylistItem v-for="item in playList" :key="item.id" :item="item" />
@@ -92,7 +111,7 @@ onMounted(() => {
           v-model:current="offset"
           show-total
           :show-jumper="false"
-          :page-size="35"
+          :page-size="limit"
           :total="total"
         />
       </div>
@@ -107,7 +126,7 @@ onMounted(() => {
     width: 1200px;
     // 分类区域
     .category-ls {
-      padding-top: 40px;
+      margin-top: 30px;
       ul {
         display: grid;
         grid-template-columns: repeat(11, 1fr);
@@ -121,7 +140,12 @@ onMounted(() => {
           cursor: pointer;
           text-align: center;
 
-          &.active {
+          &.current {
+            color: $primary-color;
+            background: $hover-color;
+          }
+
+          &:hover {
             color: $primary-color;
             background: $hover-color;
           }
@@ -133,8 +157,18 @@ onMounted(() => {
       margin-top: 30px;
       .playlist-title {
         margin-bottom: 20px;
+        display: flex;
         font-size: 18px;
         color: $primary-color;
+
+        .off {
+          margin-left: 5px;
+
+          &:hover {
+            color: $hover-color;
+            cursor: pointer;
+          }
+        }
       }
       .playlist-items {
         display: grid;

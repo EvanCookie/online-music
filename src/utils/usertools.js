@@ -1,4 +1,8 @@
-// 播放量处理
+/**
+ * 格式化播放量函数
+ * @param {*} playCount 播放量
+ * @returns 加单位后的播放量
+ */
 export const formatPlayCount = (playCount) => {
   // 处理特殊情况：当播放量为0时
   if (playCount === 0) {
@@ -18,7 +22,11 @@ export const formatPlayCount = (playCount) => {
   return formattedString
 }
 
-// 时间戳转换
+/**
+ * 时间戳格式化函数
+ * @param {*} timestamp 被格式化的时间
+ * @returns 格式化后的时间：XXXX年XX月XX日
+ */
 export const timestampToFormattedDate = (timestamp) => {
   const date = new Date(timestamp)
   // 使用getFullYear()获取年份
@@ -29,4 +37,16 @@ export const timestampToFormattedDate = (timestamp) => {
   const day = ('0' + date.getDate()).slice(-2)
   // 返回格式化后的日期字符串
   return `${year}年${month}月${day}日`
+}
+
+/**
+ * 滚动条函数
+ * @param {*} speed 平滑滚动的速度系数
+ */
+export const smoothScrollToTop = (speed = 0.2) => {
+  const c = document.documentElement.scrollTop || document.body.scrollTop
+  if (c > 0) {
+    window.requestAnimationFrame(smoothScrollToTop)
+    window.scrollTo(0, c * (1 - speed))
+  }
 }

@@ -15,7 +15,7 @@ const toArtistDetail = (id) => {
 <template>
   <div class="artistlist-item" @click="toArtistDetail(item.id)">
     <div class="avatar-image">
-      <img :src="item.picUrl" />
+      <img :src="item.img1v1Url" />
     </div>
     <div class="info">
       <div class="name ellipsis">{{ item.name }}</div>
