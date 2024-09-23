@@ -1,10 +1,15 @@
 <script setup name="PlaylistItem">
 defineProps(['item'])
+import { useRouter } from 'vue-router'
+const router = useRouter()
 import { Message } from '@arco-design/web-vue'
 
 // 跳转歌单详情页面
 const toPlayListDetail = (id) => {
-  Message.success('跳转歌单详情' + id)
+  router.push({
+    name: 'playlist-detail',
+    params: { id }
+  })
 }
 
 // 跳转播放页面

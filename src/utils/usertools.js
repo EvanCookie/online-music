@@ -1,25 +1,21 @@
 /**
  * 格式化播放量函数
  * @param {*} playCount 播放量
- * @returns 加单位后的播放量
+ * @returns 格式化后的播放量
  */
 export const formatPlayCount = (playCount) => {
-  // 处理特殊情况：当播放量为0时
-  if (playCount === 0) {
-    formattedString = '0万'
-    return formattedString
+  if (playCount < 10000) {
+    // 一万以下保持不变
+    return playCount.toString()
+  } else if (playCount >= 10000 && playCount < 100000000) {
+    // 一万到一亿之间，转换成“XX.X万”的形式，但省略末尾的.0
+    const formatted = (playCount / 10000).toFixed(1)
+    return formatted.endsWith('.0') ? formatted.slice(0, -2) + '万' : formatted + '万'
+  } else {
+    // 一亿以上，转换成“XX.X亿”的形式，但省略末尾的.0
+    const formatted = (playCount / 100000000).toFixed(1)
+    return formatted.endsWith('.0') ? formatted.slice(0, -2) + '亿' : formatted + '亿'
   }
-
-  // 转换单位&处理小数
-  let countInWan = playCount / 10000
-  let formattedString = countInWan.toFixed(1)
-
-  // 检查是否以".0"结尾，如果是，则截取掉这部分
-  formattedString = formattedString.endsWith('.0')
-    ? formattedString.slice(0, -2) + '万'
-    : (formattedString += '万')
-
-  return formattedString
 }
 
 /**
@@ -49,4 +45,19 @@ export const smoothScrollToTop = (speed = 0.2) => {
     window.requestAnimationFrame(smoothScrollToTop)
     window.scrollTo(0, c * (1 - speed))
   }
+}
+
+/**
+ * 格式化歌曲时长函数
+ * @param {*} milliseconds
+ * @returns 256000 => 04:16
+ */
+export const formatDuration = (ms) => {
+  const seconds = Math.floor((ms / 1000) % 60)
+  const minutes = Math.floor((ms / (1000 * 60)) % 60)
+
+  // 使用'MM:SS'格式
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+
+  return formattedTime
 }
