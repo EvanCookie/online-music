@@ -32,7 +32,7 @@ export const timestampToFormattedDate = (timestamp) => {
   // 使用getDate()获取日，并格式化
   const day = ('0' + date.getDate()).slice(-2)
   // 返回格式化后的日期字符串
-  return `${year}年${month}月${day}日`
+  return `${year}-${month}-${day}`
 }
 
 /**

@@ -1,5 +1,6 @@
 <script setup name="PlaylistDetail">
-import { formatPlayCount, formatDuration } from '@/utils/usertools'
+import SongList from '@/components/song-ls/SongList.vue'
+import { formatPlayCount, timestampToFormattedDate } from '@/utils/usertools'
 import { reqPlaylistDetailData, reqPlaylistSongData } from '@/api/playlist'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
@@ -42,14 +43,18 @@ onMounted(() => {
     <div class="inside-container">
       <div class="info-box">
         <div class="coverImg">
-          <img :src="playListDetail.coverImgUrl" alt="无法加载" />
+          <img :src="playListDetail.coverImgUrl" alt="" />
         </div>
+
         <!-- 说明 -->
         <div class="info">
           <div class="info-main">
             <h1 class="title">{{ playListDetail.name }}</h1>
             <div class="singer-name">
               <icon-user /> <span>{{ playListDetail.creator?.nickname }}</span>
+              <span class="createTime"
+                >{{ timestampToFormattedDate(playListDetail.createTime) }}创建</span
+              >
             </div>
             <div class="playcount">
               播放量：<span>{{ formatPlayCount(playListDetail.playCount) }}</span>
@@ -75,32 +80,8 @@ onMounted(() => {
       <!-- 歌曲列表 -->
       <div class="songlist-group">
         <div class="title">全部歌曲</div>
-        <div class="song-ls">
-          <!-- 表头 -->
-          <li class="list-title">
-            <div class="num">序号</div>
-            <div class="song ellipsis">歌曲</div>
-            <div class="artist">歌手</div>
-            <div class="album">专辑</div>
-            <div class="time">时长</div>
-          </li>
-          <!-- 列表 -->
-          <li class="ls" v-for="(item, index) in songList" :key="item.id">
-            <div class="num">{{ index + 1 }}</div>
-            <div class="song ellipsis">
-              <span>{{ item.name }}</span>
-              <i class="vip">VIP</i>
-            </div>
-            <div class="artist ellipsis">
-              <span class="artist-item" v-for="(i, index) in item.ar" :key="i.id">
-                <i v-if="index > 0"> / </i>
-                <span>{{ i.name }}</span>
-              </span>
-            </div>
-            <div class="album ellipsis">{{ item.al.name }}</div>
-            <div class="time">{{ formatDuration(item.dt) }}</div>
-          </li>
-        </div>
+        <!-- 列表 -->
+        <SongList :songlist="songList" />
       </div>
     </div>
   </div>
@@ -143,6 +124,10 @@ onMounted(() => {
 
           .singer-name {
             margin: 20px 0;
+
+            .createTime {
+              margin-left: 20px;
+            }
           }
 
           div:nth-child(n + 3) {
@@ -195,88 +180,6 @@ onMounted(() => {
         margin-bottom: 30px;
         font-size: 28px;
         color: $primary-color;
-      }
-
-      .song-ls {
-        // 基本样式
-        li {
-          display: flex;
-          height: 50px;
-          background: #000;
-
-          div {
-            height: 50px;
-            line-height: 50px;
-            margin-left: 15px;
-            color: $secondary-color;
-          }
-
-          .num {
-            width: 50px;
-          }
-
-          // 歌曲
-          .song {
-            padding-right: 25px;
-            width: 318px;
-            color: $primary-color;
-
-            span:hover {
-              cursor: pointer;
-              color: $hover-color;
-            }
-
-            .vip {
-              margin-left: 5px;
-              padding: 1px 3px 0px;
-              font-size: 12px;
-              line-height: 13px;
-              background: transparent;
-              border: 1px solid #b99b73;
-              border-radius: 2px;
-              color: #b99b73;
-            }
-          }
-
-          // 歌手
-          .artist {
-            padding-right: 25px;
-            width: 250px;
-            color: $primary-color;
-
-            .artist-item {
-              span:hover {
-                cursor: pointer;
-                color: $hover-color;
-              }
-            }
-          }
-
-          // 专辑
-          .album {
-            width: 370px;
-          }
-
-          // 时长
-          .time {
-            width: 60px;
-          }
-        }
-
-        // 奇数
-        .ls:nth-child(2n + 1) {
-          background: #000;
-        }
-
-        // 偶数
-        .ls:nth-child(2n) {
-          background: transparent;
-        }
-
-        // 悬停颜色
-        .ls:hover {
-          background: #000;
-        }
       }
     }
   }
