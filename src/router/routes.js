@@ -23,12 +23,6 @@ export default [
     component: () => import('@/views/toplist/Toplist.vue'),
     name: 'toplist'
   },
-  {
-    path: '/toplist/:id',
-    component: () => import('@/views/toplist/ToplistDetail.vue'),
-    name: 'toplist-detail',
-    props: true
-  },
   /* 歌手 */
   {
     path: '/artist',

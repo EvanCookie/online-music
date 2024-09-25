@@ -3,10 +3,9 @@ import SongList from '@/components/song-ls/SongList.vue'
 import { formatPlayCount, timestampToFormattedDate } from '@/utils/usertools'
 import { reqPlaylistDetailData, reqPlaylistSongData } from '@/api/playlist'
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-const route = useRoute()
+const pops = defineProps(['id'])
 
-const id = route.params.id // 获取歌单id
+const id = pops.id // 获取歌单id
 const playListDetail = ref({})
 const songList = ref([])
 const limit = ref(999)
@@ -55,6 +54,12 @@ onMounted(() => {
               <span class="createTime"
                 >{{ timestampToFormattedDate(playListDetail.createTime) }}创建</span
               >
+
+              <span class="updataTime">
+                <icon-clock-circle />
+                最近更新：
+                {{ timestampToFormattedDate(playListDetail.updateTime) }}
+              </span>
             </div>
             <div class="playcount">
               播放量：<span>{{ formatPlayCount(playListDetail.playCount) }}</span>
@@ -126,6 +131,10 @@ onMounted(() => {
             margin: 20px 0;
 
             .createTime {
+              margin-left: 20px;
+            }
+
+            .updataTime {
               margin-left: 20px;
             }
           }

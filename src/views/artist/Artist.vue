@@ -161,6 +161,11 @@ onMounted(() => {
       margin-top: 30px;
       display: flex;
       justify-content: flex-end;
+
+      :deep(.arco-btn) {
+        background-color: $hover-color;
+        color: $primary-color;
+      }
     }
   }
 }
