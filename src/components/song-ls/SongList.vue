@@ -25,27 +25,32 @@ const toArtistDetail = (id) => {
     <li class="list-title">
       <div class="num">序号</div>
       <div class="song ellipsis">歌曲</div>
-      <div class="artist">歌手</div>
-      <div class="album">专辑</div>
+      <div class="artist ellipsis">歌手</div>
+      <div class="album ellipsis">专辑</div>
       <div class="time">时长</div>
     </li>
-    <!-- 列表 -->
+    <!-- 列表项 -->
     <li class="song-item" v-for="(item, index) in songlist" :key="item.id">
       <div class="num">{{ index + 1 }}</div>
+
       <div class="song ellipsis">
         <i class="vip" v-if="item.fee == 1">VIP</i>
         <span>{{ item.name }}</span>
       </div>
+
       <div class="artist ellipsis">
         <span class="artist-item" v-for="(i, index) in item.ar" :key="i.id">
           <i v-if="index > 0"> / </i>
           <span @click="toArtistDetail(i.id)">{{ i.name }}</span>
         </span>
       </div>
+
       <div class="album ellipsis">
         <span>{{ item.al.name }}</span>
       </div>
+
       <div class="time">{{ formatDuration(item.dt) }}</div>
+
       <div class="tools">
         <span @click="toPlayAudio(item.id)"> <icon-play-circle /></span>
         <span> <icon-heart /></span>
@@ -58,19 +63,19 @@ const toArtistDetail = (id) => {
 
 <style scoped lang="scss">
 .song-ls {
-  // 公共基本样式
+  // 基本样式
   li {
     display: flex;
     height: 50px;
     background: #000;
-
+    color: $secondary-color;
     div {
       height: 50px;
       line-height: 50px;
       margin-left: 15px;
-      color: $secondary-color;
     }
 
+    // 序号
     .num {
       width: 50px;
     }
@@ -80,13 +85,13 @@ const toArtistDetail = (id) => {
       position: relative;
       padding-right: 40px;
       width: 318px;
-      color: $primary-color;
-
+      span {
+        color: $primary-color;
+      }
       span:hover {
         cursor: pointer;
         color: $hover-color;
       }
-
       .vip {
         position: absolute;
         top: 50%;
@@ -106,8 +111,9 @@ const toArtistDetail = (id) => {
     .artist {
       padding-right: 25px;
       width: 250px;
-      color: $primary-color;
-
+      span {
+        color: $primary-color;
+      }
       .artist-item {
         span:hover {
           cursor: pointer;
@@ -132,6 +138,26 @@ const toArtistDetail = (id) => {
     }
   }
 
+  // 奇数项
+  .song-item:nth-child(2n + 1) {
+    background: #000;
+  }
+
+  // 偶数项
+  .song-item:nth-child(2n) {
+    background: transparent;
+  }
+
+  // 悬停颜色项
+  .song-item:hover {
+    background: #000;
+
+    // 显示隐藏按钮
+    .tools {
+      display: block;
+    }
+  }
+
   // 隐藏工具
   li.song-item {
     position: relative;
@@ -151,26 +177,6 @@ const toArtistDetail = (id) => {
         font-size: 20px;
         cursor: pointer;
       }
-    }
-  }
-
-  // 奇数
-  .song-item:nth-child(2n + 1) {
-    background: #000;
-  }
-
-  // 偶数
-  .song-item:nth-child(2n) {
-    background: transparent;
-  }
-
-  // 悬停颜色
-  .song-item:hover {
-    background: #000;
-
-    // 显示隐藏按钮
-    .tools {
-      display: block;
     }
   }
 }

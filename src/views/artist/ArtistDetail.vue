@@ -1,6 +1,6 @@
 <script setup name="ArtistDetail">
 import SongList from '@/components/song-ls/SongList.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import { reqArtistDetail, reqArtistDesc } from '@/api/artist'
 
 const pops = defineProps(['id'])
@@ -22,6 +22,15 @@ const getArtistDesc = async () => {
   const { data } = await reqArtistDesc(pops.id)
   artistDesc.value = data
 }
+
+// 监听
+watchEffect(() => {
+  // 参数变化重新调用
+  if (pops.id) {
+    getArtistDetailData()
+    getArtistDesc()
+  }
+})
 
 onMounted(() => {
   getArtistDetailData()
@@ -48,7 +57,7 @@ onMounted(() => {
       <div class="works-content">
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" title="热门作品">
-            <!-- 列表 -->
+            <!-- 歌曲列表 -->
             <SongList :songlist="hotSongs" />
           </a-tab-pane>
           <a-tab-pane key="2" title="专辑"> 待完善 </a-tab-pane>
@@ -161,6 +170,11 @@ onMounted(() => {
           .arco-tabs-tab .arco-tabs-tab-title::before {
             display: none;
           }
+        }
+
+        // content样式
+        .arco-tabs-content {
+          padding-top: 25px;
         }
       }
 
