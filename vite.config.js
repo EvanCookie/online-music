@@ -30,7 +30,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  // 代理
+  // 跨域代理
   // server: {
   //   proxy: {
   //     '/api': {
@@ -40,6 +40,7 @@ export default defineConfig({
   //     }
   //   }
   // },
+  // sass变量
   css: {
     preprocessorOptions: {
       scss: {

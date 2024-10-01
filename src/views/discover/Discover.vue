@@ -51,7 +51,9 @@ onMounted(() => {
           </div>
         </div>
         <div class="card-content">
-          <PlaylistItem v-for="item in playlistData" :key="item.id" :item="item" />
+          <div class="discover-playlist">
+            <PlaylistItem v-for="item in playlistData" :key="item.id" :item="item" />
+          </div>
         </div>
       </div>
     </div>
@@ -67,7 +69,9 @@ onMounted(() => {
           </div>
         </div>
         <div class="card-content">
-          <NewsongItem v-for="item in songlistData" :key="item.id" :item="item" />
+          <div class="discover-newsong">
+            <NewsongItem v-for="item in songlistData" :key="item.id" :item="item" />
+          </div>
         </div>
       </div>
     </div>
@@ -83,7 +87,9 @@ onMounted(() => {
           </div>
         </div>
         <div class="card-content">
-          <ArtistItem v-for="item in hotartistData" :key="item.id" :item="item" />
+          <div class="discover-hotartist">
+            <ArtistItem v-for="item in hotartistData" :key="item.id" :item="item" />
+          </div>
         </div>
       </div>
     </div>
@@ -92,7 +98,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .discover-page {
-  // 卡片公共样式
+  // 卡片样式
   .card {
     margin: 50px 0;
     .inside-container {
@@ -115,10 +121,23 @@ onMounted(() => {
           color: $hover-color;
         }
       }
+
       .card-content {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        // grid 区域公共样式
+        & > [class^='discover-'] {
+          display: grid;
+          justify-content: space-between;
+        }
+
+        .discover-playlist {
+          grid-template-columns: repeat(5, auto);
+        }
+        .discover-newsong {
+          grid-template-columns: repeat(3, auto);
+        }
+        .discover-hotartist {
+          grid-template-columns: repeat(6, auto);
+        }
       }
     }
   }
