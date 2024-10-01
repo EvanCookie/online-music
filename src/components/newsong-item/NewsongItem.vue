@@ -13,7 +13,7 @@ const toSong = (id) => {
     <div class="poster">
       <div class="bg"></div>
       <div class="poster-img">
-        <img :src="item.picUrl" alt="" />
+        <img v-lazy="item.picUrl" alt="" />
       </div>
     </div>
     <div class="info">

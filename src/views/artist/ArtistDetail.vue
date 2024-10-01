@@ -43,7 +43,7 @@ onMounted(() => {
     <div class="info-box">
       <div class="info-content">
         <div class="avatar">
-          <img :src="artistDetail.img1v1Url" alt="" />
+          <img v-lazy="artistDetail.img1v1Url" alt="" />
         </div>
         <div class="info-main">
           <div class="title">{{ artistDetail.name }}</div>

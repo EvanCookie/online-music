@@ -21,7 +21,7 @@ const toPlayAudio = (id) => {
 <template>
   <div class="playlist-item">
     <div class="poster-img" @click="toPlayListDetail(item.id)">
-      <img :src="item.picUrl || item.coverImgUrl" alt="" />
+      <img v-lazy="item.picUrl || item.coverImgUrl" alt="" />
       <div class="play-bar" @click.stop="toPlayAudio(item.id)">
         <img src="../../assets/images/play-bar.png" alt="图片无法加载" />
       </div>

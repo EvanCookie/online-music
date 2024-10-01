@@ -42,7 +42,7 @@ onMounted(() => {
     <div class="inside-container">
       <div class="info-box">
         <div class="coverImg">
-          <img :src="playListDetail.coverImgUrl" alt="" />
+          <img v-lazy="playListDetail.coverImgUrl" alt="" />
         </div>
 
         <!-- 说明 -->
