@@ -1,8 +1,8 @@
 <script setup name="Header">
+import { nevList } from './config/index'
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 const router = useRouter()
-import { nevList } from './config/index'
 
 // 搜索关键字
 const keyWords = ref('')
@@ -15,6 +15,8 @@ const toSearchPage = () => {
       keywords: keyWords.value
     }
   })
+
+  keyWords.value = ''
 }
 </script>
 
@@ -132,7 +134,7 @@ const toSearchPage = () => {
         height: 40px;
 
         // 搜索框
-        .arco-input-search {
+        &:deep(.arco-input-search) {
           height: inherit;
           background: #000;
           border-radius: 4px;
@@ -141,15 +143,15 @@ const toSearchPage = () => {
           outline: none;
 
           // 输入框文本颜色
-          &:deep(.arco-input) {
+          .arco-input {
             color: $primary-color;
           }
           // 输入框提示文本颜色
-          &:deep(.arco-input::placeholder) {
+          .arco-input::placeholder {
             color: $secondary-color;
           }
           // 搜索图标
-          &:deep(.arco-input-suffix) {
+          .arco-input-suffix {
             font-size: 20px;
             color: $secondary-color;
 

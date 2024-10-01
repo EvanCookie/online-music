@@ -46,10 +46,10 @@ const getPlaylistData = async () => {
  * @param index 当前的项索引
  * @param e 当前选择的category
  */
-const changeCategory = (index, e) => {
+const changeCategory = (index, category) => {
   // 设置相关数据
   currentCategory.value = index // 保存当前激活选项
-  cat.value = e.target.innerText // 保存当前的category
+  cat.value = category // 保存当前的category
   offset.value = 1 // 返回第一页
   // 重新获取数据
   getPlaylistData()
@@ -87,7 +87,7 @@ onMounted(() => {
           <li
             v-for="(item, index) in categoryList"
             :key="index"
-            @click="changeCategory(index, $event)"
+            @click="changeCategory(index, item.name)"
             :class="{ current: index === currentCategory }"
           >
             {{ item.name }}

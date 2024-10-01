@@ -16,8 +16,6 @@ const route = useRoute()
 </template>
 
 <style scoped lang="scss">
-$bgc-color-1: #1f1f1f;
-
 // 黑色背景
 .theme-black {
   background-color: $bgc-color-1;

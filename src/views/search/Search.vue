@@ -1,14 +1,14 @@
 <script setup name="Search">
 import SearchSongList from '@/components/song-ls/SearchSongList.vue'
 import { smoothScrollToTop } from '@/utils/usertools'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import { reqSearch } from '@/api/search'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
 // 搜索参数对象
 const searchObj = ref({
-  keywords: route.query.keywords,
+  keywords: route.query.keywords, // 搜索关键字
   limit: 30, // 每页条数
   offset: 1, // 当前页
   type: 1 // 类型
@@ -29,10 +29,11 @@ const getSongList = async () => {
 
 // 切换分页
 const changeCurrent = () => {
-  // 获取最新数据
   getSongList()
   smoothScrollToTop()
 }
+
+watchEffect(() => {})
 
 onMounted(() => {
   getSongList()
@@ -42,7 +43,15 @@ onMounted(() => {
 <template>
   <div class="search-pages">
     <div class="search-head">
-      <div class="search-input"></div>
+      <div class="search-input">
+        <a-input-search
+          @press-enter="getSongList()"
+          @search="getSongList()"
+          :allow-clear="true"
+          v-model="searchObj.keywords"
+          placeholder="请输入歌名、歌词、歌手或专辑"
+        />
+      </div>
     </div>
     <div class="search-content">
       <div class="inside-container">
@@ -89,7 +98,39 @@ onMounted(() => {
     .search-input {
       width: 600px;
       height: 50px;
-      background-color: skyblue;
+
+      // 搜索框
+      &:deep(.arco-input-search) {
+        height: inherit;
+        background: #000;
+        border-radius: 4px;
+        font-size: 14px;
+        border: none;
+        outline: none;
+
+        // 输入框文本颜色
+        .arco-input {
+          color: $primary-color;
+        }
+        // 输入框提示文本颜色
+        .arco-input::placeholder {
+          color: $secondary-color;
+        }
+        // 搜索图标
+        .arco-input-suffix {
+          font-size: 20px;
+          color: $secondary-color;
+
+          // 隐藏搜索图标背景
+          .arco-icon-hover::before {
+            display: none;
+          }
+
+          .arco-icon-hover:hover {
+            color: $primary-color;
+          }
+        }
+      }
     }
   }
 
