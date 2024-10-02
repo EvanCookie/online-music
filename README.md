@@ -15,6 +15,50 @@ RenMusic 是一款基于vue3的在线音乐播放器，具有音乐搜索、播�
 
 请在使用本项目之前仔细阅读以上免责声明，并确保您已完全理解并接受其中的所有条款和条件。如果您不同意或无法遵守这些规定，请不要使用本项目。
 
+## 安装与使用
+
+### RenMusic
+
+```bash
+# 下载项目
+git clone https://github.com/EvanCookie/online-music.git
+
+# 进入项目目录
+cd online-music
+
+# 安装依赖
+pnpm install
+
+# 本地运行
+pnpm dev
+
+# 打包
+pnpm build
+
+# 预览打包
+pnpm preview
+```
+
+### 后台 api 服务（本地）
+
+[网易云音乐 NodeJS 版 API](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+```bash
+# 下载 neteasecloudmusicapi
+git clone --depth=1 https://gitlab.com/Binaryify/neteasecloudmusicapi.git
+
+# 进入 neteasecloudmusicapi 后台服务目录
+cd neteasecloudmusicapi
+
+# 安装依赖
+npm install
+
+# 运行后台 api 服务 默认 http://localhost:3000
+node app.js
+# 或者
+npm start
+```
+
 
 
 ## 技术栈
@@ -31,4 +75,4 @@ RenMusic 是一款基于vue3的在线音乐播放器，具有音乐搜索、播�
 
 ## License
 
-[MIT](https://github.com/EvanCookie/online-music/blob/master/LICENSE)
+[The MIT License (MIT)](https://github.com/EvanCookie/online-music/blob/master/LICENSE)
