@@ -1,8 +1,8 @@
 <script setup>
 import Header from '@/components/header/Header.vue'
 import Footer from '@/components/footer/Footer.vue'
-import { useRoute, RouterView } from 'vue-router'
-const route = useRoute()
+import PlayBar from '@/components/play-bar/PlayBar.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -11,7 +11,8 @@ const route = useRoute()
     <div class="page-main">
       <router-view />
     </div>
-    <Footer v-if="!(route.path === '/player')" />
+    <Footer />
+    <PlayBar />
   </div>
 </template>
 

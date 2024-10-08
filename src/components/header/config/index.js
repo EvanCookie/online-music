@@ -8,15 +8,15 @@ export const nevList = [
     path: '/playlist'
   },
   {
+    title: '专辑',
+    path: '/temp'
+  },
+  {
     title: '排行榜',
     path: '/toplist'
   },
   {
     title: '歌手',
     path: '/artist'
-  },
-  {
-    title: '播放器',
-    path: '/player'
   }
 ]

@@ -1,5 +1,6 @@
 <script setup name="ArtistDetail">
 import SongList from '@/components/song-ls/SongList.vue'
+import { smoothScrollToTop } from '@/utils/usertools'
 import { ref, onMounted, watchEffect } from 'vue'
 import { reqArtistDetail, reqArtistDesc } from '@/api/artist'
 
@@ -29,6 +30,7 @@ watchEffect(() => {
   if (pops.id) {
     getArtistDetailData()
     getArtistDesc()
+    smoothScrollToTop()
   }
 })
 

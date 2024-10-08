@@ -56,7 +56,7 @@ const toPlayAudio = (id) => {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 9999;
+      z-index: 1;
       display: none;
       transition:
         opacity 0.3s,
