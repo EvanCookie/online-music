@@ -23,7 +23,7 @@ const toSearchPage = () => {
 <template>
   <div class="page-header">
     <div class="container">
-      <div class="header-title">
+      <div class="header-title hover-cp">
         <h1 @click="router.push('/')">
           <img class="logo" src="../../../src/assets/images/logo.png" alt="" />
           RenMusic
@@ -33,10 +33,11 @@ const toSearchPage = () => {
       <div class="header-content">
         <ul class="header-nav">
           <li v-for="nav in nevList" :key="nav.title">
-            <router-link class="link" :to="nav.path" active-class="active">{{
+            <router-link class="link hover-cp" :to="nav.path" active-class="active">{{
               nav.title
             }}</router-link>
           </li>
+          <li class="player hover-cp">播放器</li>
         </ul>
       </div>
 
@@ -81,7 +82,6 @@ const toSearchPage = () => {
       h1 {
         color: $primary-color;
         font-weight: 300;
-        cursor: pointer;
         .logo {
           width: 40px;
         }
@@ -103,7 +103,6 @@ const toSearchPage = () => {
             display: block;
             height: 82px;
             line-height: 82px;
-            cursor: pointer;
             font-size: 16px;
             color: $secondary-color;
 
@@ -118,6 +117,14 @@ const toSearchPage = () => {
               color: $hover-color;
             }
           }
+        }
+
+        // 播放器按钮
+        li.player {
+          height: 82px;
+          line-height: 82px;
+          font-size: 16px;
+          color: $secondary-color;
         }
       }
     }

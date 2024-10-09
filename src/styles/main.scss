@@ -14,6 +14,10 @@ html {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* 鼠标悬停显示 */
+.hover-cp {
+  cursor: pointer;
+}
 
 /* 设置网页统一的字体大小、行高、字体系列相关属性 */
 #app {

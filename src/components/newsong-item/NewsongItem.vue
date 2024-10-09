@@ -1,10 +1,20 @@
 <script setup name="NewsongItem">
 defineProps(['item'])
 import { Message } from '@arco-design/web-vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 // 跳转歌曲详情
 const toSong = (id) => {
   Message.success('跳转歌曲详情' + id)
+}
+
+// 跳转歌手详情
+const toArtistDetail = (id) => {
+  router.push({
+    name: 'artist-detail',
+    params: { id }
+  })
 }
 </script>
 
@@ -19,7 +29,10 @@ const toSong = (id) => {
     <div class="info">
       <div class="title ellipsis">{{ item.name }}</div>
       <div class="artist ellipsis">
-        <span v-for="i in item.song.artists" :key="i.id">{{ i.name }}</span>
+        <span v-for="(i, index) in item.song.artists" :key="i.id">
+          <i v-if="index > 0"> / </i>
+          <span class="artist-item" @click.stop="toArtistDetail(i.id)">{{ i.name }}</span>
+        </span>
       </div>
     </div>
   </div>
@@ -81,6 +94,10 @@ const toSong = (id) => {
     .artist {
       margin-top: 6px;
       color: $secondary-color;
+
+      // span.artist-item:hover {
+      //   color: $hover-color;
+      // }
     }
   }
 }
