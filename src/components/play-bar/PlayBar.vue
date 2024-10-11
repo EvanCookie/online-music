@@ -1,5 +1,7 @@
 <script setup name="PlayBar">
 import { ref } from 'vue'
+import { usePlayerStore } from '@/stores/player'
+const playerStore = usePlayerStore()
 
 // 开始暂停按钮控制
 const playPause = ref(true)
@@ -8,7 +10,7 @@ const isVoice = ref(true)
 </script>
 
 <template>
-  <div class="play-bar">
+  <div class="play-bar" v-show="playerStore.showBar">
     <div class="inside-container">
       <div class="action-left">
         <div class="song-info">
@@ -105,168 +107,171 @@ $base-btn-font-size: 25px;
   color: $secondary-color-2;
   box-shadow: 0 -2px 10px 0 rgba(52, 52, 52, 0.3);
 
+  // 内部容器
   .inside-container {
     margin: 0 auto;
     height: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
 
-    // 左侧
-    .action-left {
-      width: 400px;
-      // 音乐说明
-      .song-info {
-        display: flex;
-        align-items: center;
-        // 图片
-        .song-img {
-          margin-right: 20px;
-          width: 80px;
-          height: 80px;
-        }
-        // 艺术家
-        .song-artist {
-          margin-right: 20px;
-
-          .song-name {
-            color: $primary-color;
-          }
-        }
-        // 分享按钮
-        .btns {
-          display: flex;
-          font-size: $base-btn-font-size;
-          .btn-item {
-            margin-right: 25px;
-          }
-        }
-      }
-    }
-
-    // 播放按钮
-    .play-info {
-      width: 580px;
-      // 控制按钮
-      .play-btns {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #aaaaaa;
-        font-size: 30px;
-
-        // 播放暂停按钮
-        .play-pause-box {
-          margin: 0 40px;
-          width: 50px;
-          height: 50px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 50%;
-          color: #ffffff;
-          background-color: #e61723;
-        }
-
-        // 切换按钮样式
-        .prev:hover,
-        .next:hover {
-          color: #ffffff;
-        }
-      }
-
-      // 时间进度条
-      .play-slider {
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        span {
-          margin: 0 10px;
-        }
-        // 进度条
-        :deep(.arco-slider) {
-          width: 100%;
-
-          // 滑块
-          .arco-slider-track {
-            &::before {
-              height: 4px;
-              background-color: $slider-bgc;
-            }
-
-            // 已过进度颜色
-            .arco-slider-bar {
-              height: 4px;
-              background-color: #f00;
-            }
-
-            // 小圆点
-            .arco-slider-btn::after {
-              border-color: $hover-color;
-              background-color: $hover-color;
-            }
-          }
-        }
-      }
-    }
-
-    // 右侧
-    .action-right {
-      width: 400px;
+.play-bar {
+  // 左侧
+  .action-left {
+    width: 400px;
+    // 音乐说明
+    .song-info {
       display: flex;
-      justify-content: end;
       align-items: center;
-
-      // 播放类型
-      .player-type {
+      // 图片
+      .song-img {
         margin-right: 20px;
-        display: flex;
+        width: 80px;
+        height: 80px;
       }
-      // 评论
-      .comment-box {
+      // 艺术家
+      .song-artist {
         margin-right: 20px;
-        font-size: $base-btn-font-size;
-      }
 
-      // 音量模块
-      .voice-box {
-        display: flex;
-
-        // 音量按钮
-        .voice-icon {
-          margin-right: 15px;
-          font-size: $base-btn-font-size;
+        .song-name {
+          color: $primary-color;
         }
+      }
+      // 分享按钮
+      .btns {
+        display: flex;
+        font-size: $base-btn-font-size;
+        .btn-item {
+          margin-right: 25px;
+        }
+      }
+    }
+  }
 
-        // 音量条
-        :deep(.arco-slider) {
-          width: 90px;
+  // 播放按钮
+  .play-info {
+    width: 580px;
+    // 控制按钮
+    .play-btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #aaaaaa;
+      font-size: 30px;
 
-          // 滑块
-          .arco-slider-track {
-            &::before {
-              background-color: $primary-color;
-            }
+      // 播放暂停按钮
+      .play-pause-box {
+        margin: 0 40px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: #ffffff;
+        background-color: #e61723;
+      }
 
-            // 已过进度颜色
-            .arco-slider-bar {
-              background-color: #f00;
-            }
+      // 切换按钮样式
+      .prev:hover,
+      .next:hover {
+        color: #ffffff;
+      }
+    }
 
-            // 小圆点
-            .arco-slider-btn::after {
-              border-color: $hover-color;
-              background-color: $hover-color;
-            }
+    // 时间进度条
+    .play-slider {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      span {
+        margin: 0 10px;
+      }
+      // 进度条
+      :deep(.arco-slider) {
+        width: 100%;
+
+        // 滑块
+        .arco-slider-track {
+          &::before {
+            height: 4px;
+            background-color: $slider-bgc;
+          }
+
+          // 已过进度颜色
+          .arco-slider-bar {
+            height: 4px;
+            background-color: #f00;
+          }
+
+          // 小圆点
+          .arco-slider-btn::after {
+            border-color: $hover-color;
+            background-color: $hover-color;
           }
         }
       }
+    }
+  }
 
-      // 播放列表按钮
-      .player-list-btn {
-        margin-left: 30px;
+  // 右侧
+  .action-right {
+    width: 400px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    // 播放类型
+    .player-type {
+      margin-right: 20px;
+      display: flex;
+    }
+    // 评论
+    .comment-box {
+      margin-right: 20px;
+      font-size: $base-btn-font-size;
+    }
+
+    // 音量模块
+    .voice-box {
+      display: flex;
+
+      // 音量按钮
+      .voice-icon {
+        margin-right: 15px;
         font-size: $base-btn-font-size;
       }
+
+      // 音量条
+      :deep(.arco-slider) {
+        width: 90px;
+
+        // 滑块
+        .arco-slider-track {
+          &::before {
+            background-color: $primary-color;
+          }
+
+          // 已过进度颜色
+          .arco-slider-bar {
+            background-color: #f00;
+          }
+
+          // 小圆点
+          .arco-slider-btn::after {
+            border-color: $hover-color;
+            background-color: $hover-color;
+          }
+        }
+      }
+    }
+
+    // 播放列表按钮
+    .player-list-btn {
+      margin-left: 30px;
+      font-size: $base-btn-font-size;
     }
   }
 }

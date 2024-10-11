@@ -3,6 +3,8 @@ import { nevList } from './config/index'
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 const router = useRouter()
+import { usePlayerStore } from '@/stores/player'
+const playerStore = usePlayerStore()
 
 // 搜索关键字
 const keyWords = ref('')
@@ -37,7 +39,7 @@ const toSearchPage = () => {
               nav.title
             }}</router-link>
           </li>
-          <li class="player hover-cp">播放器</li>
+          <li class="player hover-cp" @click="playerStore.setShowBar(true)">播放器</li>
         </ul>
       </div>
 
