@@ -4,10 +4,12 @@ import { reqBannerData } from '@/api/discover'
 
 const bannerList = ref([])
 const getBannerList = async () => {
-  // 请求banner数据
-  const { data } = await reqBannerData()
-  // 保存
-  bannerList.value = data.banners
+  try {
+    const { data } = await reqBannerData()
+    bannerList.value = data.banners
+  } catch (error) {
+    console.error('Error fetching banner data:', error.message)
+  }
 }
 
 onMounted(() => {

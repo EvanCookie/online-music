@@ -1,8 +1,13 @@
 <script setup name="NewsongItem">
-defineProps(['item'])
 import { Message } from '@arco-design/web-vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const props = defineProps({
+  newsongItem: {
+    type: Object,
+    required: true
+  }
+})
 
 // 跳转歌曲详情
 const toSong = (id) => {
@@ -19,17 +24,17 @@ const toArtistDetail = (id) => {
 </script>
 
 <template>
-  <div class="newsong-item" @click="toSong(item.id)">
+  <div class="newsong-item" @click="toSong(props.newsongItem.id)">
     <div class="poster">
       <div class="bg"></div>
       <div class="poster-img">
-        <img v-lazy="item.picUrl" alt="" />
+        <img v-lazy="props.newsongItem.picUrl" alt="" />
       </div>
     </div>
     <div class="info">
-      <div class="title ellipsis">{{ item.name }}</div>
+      <div class="title ellipsis">{{ props.newsongItem.name }}</div>
       <div class="artist ellipsis">
-        <span v-for="(i, index) in item.song.artists" :key="i.id">
+        <span v-for="(i, index) in props.newsongItem.song.artists" :key="i.id">
           <i v-if="index > 0"> / </i>
           <span class="artist-item" @click.stop="toArtistDetail(i.id)">{{ i.name }}</span>
         </span>

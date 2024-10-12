@@ -1,8 +1,13 @@
 <script setup name="PlaylistItem">
-defineProps(['item'])
 import { useRouter } from 'vue-router'
 const router = useRouter()
 import { Message } from '@arco-design/web-vue'
+const props = defineProps({
+  playlistItem: {
+    type: Object,
+    required: true
+  }
+})
 
 // 跳转歌单详情页面
 const toPlayListDetail = (id) => {
@@ -20,13 +25,15 @@ const toPlayAudio = (id) => {
 
 <template>
   <div class="playlist-item">
-    <div class="poster-img" @click="toPlayListDetail(item.id)">
-      <img v-lazy="item.picUrl || item.coverImgUrl" alt="" />
-      <div class="play-bar" @click.stop="toPlayAudio(item.id)">
+    <div class="poster-img" @click="toPlayListDetail(props.playlistItem.id)">
+      <img v-lazy="props.playlistItem.picUrl || props.playlistItem.coverImgUrl" alt="" />
+      <div class="play-bar" @click.stop="toPlayAudio(props.playlistItem.id)">
         <img src="../../assets/images/play-bar.png" alt="图片无法加载" />
       </div>
     </div>
-    <div class="name ellipsis" @click="toPlayListDetail(item.id)">{{ item.name }}</div>
+    <div class="name ellipsis" @click="toPlayListDetail(props.playlistItem.id)">
+      {{ props.playlistItem.name }}
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,12 @@
 <script setup name="ArtistItem">
-defineProps(['item'])
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const props = defineProps({
+  artistItem: {
+    type: Object,
+    required: true
+  }
+})
 
 // 跳转歌手详情
 const toArtistDetail = (id) => {
@@ -13,12 +18,12 @@ const toArtistDetail = (id) => {
 </script>
 
 <template>
-  <div class="artistlist-item" @click="toArtistDetail(item.id)">
+  <div class="artistlist-item" @click="toArtistDetail(props.artistItem.id)">
     <div class="avatar-image">
-      <img v-lazy="item.img1v1Url" />
+      <img v-lazy="props.artistItem.img1v1Url" />
     </div>
     <div class="info">
-      <div class="name ellipsis">{{ item.name }}</div>
+      <div class="name ellipsis">{{ props.artistItem.name }}</div>
     </div>
   </div>
 </template>

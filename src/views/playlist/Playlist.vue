@@ -7,38 +7,35 @@ import { smoothScrollToTop } from '@/utils/usertools'
 const categoryList = ref([]) // 歌单分类信息
 const currentCategory = ref(-1) // 当前的分类
 const playList = ref([]) // 歌单数据列表
-const order = ref('hot') // 热门hot/最新new
-const cat = ref('全部') // 歌单类型
-const offset = ref(1) // 当前页
-const limit = ref(35) // 每页数据数
-const total = ref(0) // 总条数
-// 计算 - 类型右侧X号是否显示
-const offSearch = computed({
-  get() {
-    return cat.value == '全部' ? false : true
-  }
+const reqPlaylistObj = ref({
+  order: 'hot', // 热门hot/最新new
+  cat: '全部', // 歌单类型
+  offset: 1, // 当前页
+  limit: 35 // 每页数据数
 })
+const total = ref(0) // 总条数
+const isShowClose = computed(() => reqPlaylistObj.value.cat !== '全部') // 是否显示关闭开关
 
 // 获取歌单类型
 const getCategoryData = async () => {
-  const { data } = await reqPlaylistCategory()
-  categoryList.value = data.sub
+  try {
+    const { data } = await reqPlaylistCategory()
+    categoryList.value = data.sub
+  } catch (error) {
+    console.error('Error fetching category data:', error.message)
+  }
 }
 
 // 获取歌单列表
 const getPlaylistData = async () => {
-  // 传入参数获取数据
-  const { data } = await reqPlaylistData(
-    order.value,
-    cat.value,
-    offset.value,
-    limit.value
-  )
-
-  // 保存数据
-  playList.value = data.playlists
-  total.value = data.total
-  cat.value = data.cat
+  try {
+    const { data } = await reqPlaylistData(reqPlaylistObj.value)
+    playList.value = data.playlists
+    total.value = data.total
+    reqPlaylistObj.value.cat = data.cat
+  } catch (error) {
+    console.error('Error fetching playlist data:', error.message)
+  }
 }
 
 /**
@@ -49,8 +46,8 @@ const getPlaylistData = async () => {
 const changeCategory = (index, category) => {
   // 设置相关数据
   currentCategory.value = index // 保存当前激活选项
-  cat.value = category // 保存当前的category
-  offset.value = 1 // 返回第一页
+  reqPlaylistObj.value.cat = category // 保存当前的category
+  reqPlaylistObj.value.offset = 1 // 返回第一页
   // 重新获取数据
   getPlaylistData()
 }
@@ -66,7 +63,7 @@ const changeCurrent = () => {
 // 点击关闭按钮
 const closeFun = () => {
   // 重置相关数据
-  cat.value = '全部'
+  reqPlaylistObj.value.cat = '全部'
   currentCategory.value = -1
   // 重新获取数据
   getPlaylistData()
@@ -97,21 +94,21 @@ onMounted(() => {
       <!-- 歌单列表 -->
       <div class="playlist-ls">
         <div class="playlist-title">
-          <h2>{{ cat }}</h2>
-          <div class="off" v-show="offSearch" @click="closeFun"><icon-close /></div>
+          <h2>{{ reqPlaylistObj.cat }}</h2>
+          <div class="off" v-show="isShowClose" @click="closeFun"><icon-close /></div>
         </div>
         <div class="playlist-items">
-          <PlaylistItem v-for="item in playList" :key="item.id" :item="item" />
+          <PlaylistItem v-for="item in playList" :key="item.id" :playlistItem="item" />
         </div>
       </div>
       <!-- 分页器 -->
       <div class="pagination">
         <a-pagination
           @change="changeCurrent"
-          v-model:current="offset"
+          v-model:current="reqPlaylistObj.offset"
           show-total
           :show-jumper="false"
-          :page-size="limit"
+          :page-size="reqPlaylistObj.limit"
           :total="total"
         />
       </div>

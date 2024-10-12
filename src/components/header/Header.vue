@@ -2,8 +2,8 @@
 import { nevList } from './config/index'
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-const router = useRouter()
 import { usePlayerStore } from '@/stores/player'
+const router = useRouter()
 const playerStore = usePlayerStore()
 
 // 搜索关键字
@@ -17,8 +17,12 @@ const toSearchPage = () => {
       keywords: keyWords.value
     }
   })
-
   keyWords.value = ''
+}
+
+// 切换play显示/隐藏
+const togglePlayBar = () => {
+  playerStore.setShowBar()
 }
 </script>
 
@@ -39,7 +43,11 @@ const toSearchPage = () => {
               nav.title
             }}</router-link>
           </li>
-          <li class="player hover-cp" @click="playerStore.setShowBar(true)">播放器</li>
+          <li class="player hover-cp" @click="togglePlayBar">
+            <a-tooltip content="点击我显示播放控件,再次点击隐藏">
+              <span>播放器</span>
+            </a-tooltip>
+          </li>
         </ul>
       </div>
 
@@ -57,7 +65,7 @@ const toSearchPage = () => {
           <a-avatar>
             <img
               alt="avatar"
-              src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
+              src="https://pic.imgdb.cn/item/670a79fed29ded1a8cf430f4.jpg"
             />
           </a-avatar>
         </div>

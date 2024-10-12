@@ -3,12 +3,16 @@ import { ref, onMounted } from 'vue'
 import { reqTopList } from '@/api/toplist'
 import PlaylistItem from '@/components/playlist-item/PlaylistItem.vue'
 
-// 榜单数据
+// 榜单列表数据
 const toplist = ref([])
 // 获取榜单数据
 const getTopListData = async () => {
-  const { data } = await reqTopList()
-  toplist.value = data.list
+  try {
+    const { data } = await reqTopList()
+    toplist.value = data.list
+  } catch (error) {
+    console.error('Error fetching toplist data:', error.message)
+  }
 }
 
 onMounted(() => {
@@ -19,7 +23,7 @@ onMounted(() => {
 <template>
   <div class="toplist">
     <div class="inside-container">
-      <PlaylistItem v-for="item in toplist" :key="item.id" :item="item" />
+      <PlaylistItem v-for="item in toplist" :key="item.id" :playlistItem="item" />
     </div>
   </div>
 </template>

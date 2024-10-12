@@ -11,54 +11,44 @@ const currentItem = reactive({
   area: 0,
   type: 0
 })
-// 点击字母选项
-const clickInitial = (index, type) => {
+// 点击字母
+const clickInitial = (index, data) => {
   currentItem.initial = index
-  initialPage.value = type
-  // 获取数据
+  reqDataObj.value.initialPage = data
   getArtistData()
 }
-// 点击区域选项
-const clickArea = (index, type) => {
+// 点击区域
+const clickArea = (index, data) => {
   currentItem.area = index
-  areaPage.value = type
-  // 获取数据
+  reqDataObj.value.areaPage = data
   getArtistData()
 }
-// 点击类型选项
-const clickType = (index, type) => {
+// 点击类型
+const clickType = (index, data) => {
   currentItem.type = index
-  typePage.value = type
-  // 获取数据
+  reqDataObj.value.typePage = data
   getArtistData()
 }
 
 const artistList = ref([]) // 歌手数据
-// 请求所需参数
-const offset = ref(1) // 当前页
-const initialPage = ref(-1) // 字母
-const areaPage = ref(-1) // 区域
-const typePage = ref(-1) // 类型
-const limit = ref(35) // 每页数据
+const reqDataObj = ref({
+  offset: 1, // 当前页
+  initialPage: -1, // 字母
+  areaPage: -1, // 区域
+  typePage: -1, // 类型
+  limit: 35 // 每页数据数
+})
+
 // 获取歌手数据
 const getArtistData = async () => {
-  // 请求
-  const { data } = await reqArtistData(
-    offset.value,
-    initialPage.value,
-    areaPage.value,
-    typePage.value,
-    limit.value
-  )
-  // 新数据
+  const { data } = await reqArtistData(reqDataObj.value)
   const newData = data.artists
-  // 保存数据
   artistList.value = [...newData]
 }
 
-// 下拉触底函数
+// 切换下一页函数
 const fun = () => {
-  offset.value = offset.value += 1
+  reqDataObj.value.offset = reqDataObj.value.offset += 1
   getArtistData()
   smoothScrollToTop()
 }
@@ -109,7 +99,7 @@ onMounted(() => {
       </div>
       <!-- 歌手列表 -->
       <div class="artist-ls">
-        <ArtistItem v-for="item in artistList" :key="item.id" :item="item" />
+        <ArtistItem v-for="item in artistList" :key="item.id" :artistItem="item" />
       </div>
       <!-- 获取下一页按钮 -->
       <div class="btn">

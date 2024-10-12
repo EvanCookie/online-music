@@ -10,22 +10,34 @@ import { reqPlaylistData, reqNewSonglistData, reqHotArtistData } from '@/api/dis
 // 推荐歌单数据
 const playlistData = ref([])
 const getPlaylistData = async () => {
-  const { data } = await reqPlaylistData(10)
-  playlistData.value = data.result
+  try {
+    const { data } = await reqPlaylistData(10)
+    playlistData.value = data.result
+  } catch (error) {
+    console.error('Error fetching playlist data:', error.message)
+  }
 }
 
 // 推荐音乐数据
 const songlistData = ref([])
 const getSonglistData = async () => {
-  const { data } = await reqNewSonglistData(6)
-  songlistData.value = data.result
+  try {
+    const { data } = await reqNewSonglistData(6)
+    songlistData.value = data.result
+  } catch (error) {
+    console.error('Error fetching new songlist data:', error.message)
+  }
 }
 
 // 热门歌手数据
 const hotartistData = ref([])
 const getHotartistData = async () => {
-  const { data } = await reqHotArtistData(12)
-  hotartistData.value = data.artists
+  try {
+    const { data } = await reqHotArtistData(12)
+    hotartistData.value = data.artists
+  } catch (error) {
+    console.error('Error fetching hot artist data:', error.message)
+  }
 }
 
 onMounted(() => {
@@ -52,7 +64,11 @@ onMounted(() => {
         </div>
         <div class="card-content">
           <div class="discover-playlist">
-            <PlaylistItem v-for="item in playlistData" :key="item.id" :item="item" />
+            <PlaylistItem
+              v-for="item in playlistData"
+              :key="item.id"
+              :playlistItem="item"
+            />
           </div>
         </div>
       </div>
@@ -70,7 +86,11 @@ onMounted(() => {
         </div>
         <div class="card-content">
           <div class="discover-newsong">
-            <NewsongItem v-for="item in songlistData" :key="item.id" :item="item" />
+            <NewsongItem
+              v-for="item in songlistData"
+              :key="item.id"
+              :newsongItem="item"
+            />
           </div>
         </div>
       </div>
@@ -88,7 +108,7 @@ onMounted(() => {
         </div>
         <div class="card-content">
           <div class="discover-hotartist">
-            <ArtistItem v-for="item in hotartistData" :key="item.id" :item="item" />
+            <ArtistItem v-for="item in hotartistData" :key="item.id" :artistItem="item" />
           </div>
         </div>
       </div>

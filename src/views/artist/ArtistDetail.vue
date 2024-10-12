@@ -3,31 +3,42 @@ import SongList from '@/components/song-ls/SongList.vue'
 import { smoothScrollToTop } from '@/utils/usertools'
 import { ref, onMounted, watchEffect } from 'vue'
 import { reqArtistDetail, reqArtistDesc } from '@/api/artist'
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+})
 
-const pops = defineProps(['id'])
 const artistDetail = ref({}) // 歌手部分信息
 const hotSongs = ref([]) // 热门歌曲
 const artistDesc = ref({}) // 歌手描述
 
 // 获取歌手部分信息及热门歌曲
 const getArtistDetailData = async () => {
-  // 获取热门歌曲
-  const { data } = await reqArtistDetail(pops.id)
-  // 保存数据
-  artistDetail.value = data.artist
-  hotSongs.value = data.hotSongs
+  try {
+    const { data } = await reqArtistDetail(props.id)
+    artistDetail.value = data.artist
+    hotSongs.value = data.hotSongs
+  } catch (error) {
+    console.error('Error fetching artist detail data:', error.message)
+  }
 }
 
 // 获取歌手描述
 const getArtistDesc = async () => {
-  const { data } = await reqArtistDesc(pops.id)
-  artistDesc.value = data
+  try {
+    const { data } = await reqArtistDesc(props.id)
+    artistDesc.value = data
+  } catch (error) {
+    console.error('Error fetching artist desc data:', error.message)
+  }
 }
 
 // 监听
 watchEffect(() => {
   // 参数变化重新调用
-  if (pops.id) {
+  if (props.id) {
     getArtistDetailData()
     getArtistDesc()
     smoothScrollToTop()

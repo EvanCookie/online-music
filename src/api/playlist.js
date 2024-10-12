@@ -16,7 +16,7 @@ export const reqPlaylistCategory = () => {
  * @param {*} limit 数据条数
  * @returns
  */
-export const reqPlaylistData = (order, cat, offset, limit = 35) => {
+export const reqPlaylistData = ({ order, cat, offset, limit }) => {
   return http.get('/top/playlist', {
     params: {
       order,

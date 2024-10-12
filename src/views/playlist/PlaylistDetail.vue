@@ -3,30 +3,36 @@ import SongList from '@/components/song-ls/SongList.vue'
 import { formatPlayCount, timestampToFormattedDate } from '@/utils/usertools'
 import { reqPlaylistDetailData, reqPlaylistSongData } from '@/api/playlist'
 import { ref, onMounted } from 'vue'
-const pops = defineProps(['id'])
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+})
 
-const id = pops.id // 获取歌单id
-const playListDetail = ref({})
-const songList = ref([])
-const limit = ref(999)
-const offset = ref(1)
+const playListDetail = ref({}) // 歌单详情信息
+const songList = ref([]) // 歌曲列表
+const limit = ref(999) // 获取数据数
+const offset = ref(1) // 当前页
 
 // 获取歌单详情
 const getPlaylistDetailData = async () => {
-  // 请求数据
-  const { data } = await reqPlaylistDetailData(id, limit, offset)
-
-  // 保存歌单详情
-  playListDetail.value = data.playlist
+  try {
+    const { data } = await reqPlaylistDetailData(props.id, limit, offset)
+    playListDetail.value = data.playlist
+  } catch (error) {
+    console.error('Error fetching playlist detail data:', error.message)
+  }
 }
 
 // 获取歌单歌曲
 const getPlaylistSongData = async () => {
-  // 发送请求
-  const { data } = await reqPlaylistSongData(id, limit.value, offset.value)
-
-  // 保存数据
-  songList.value = data.songs
+  try {
+    const { data } = await reqPlaylistSongData(props.id, limit.value, offset.value)
+    songList.value = data.songs
+  } catch (error) {
+    console.error('Error fetching playlist song detail data:', error.message)
+  }
 }
 
 onMounted(() => {

@@ -1,7 +1,7 @@
 <script setup name="Search">
 import SearchSongList from '@/components/song-ls/SearchSongList.vue'
 import { smoothScrollToTop } from '@/utils/usertools'
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted } from 'vue'
 import { reqSearch } from '@/api/search'
 import { useRoute } from 'vue-router'
 const route = useRoute()
@@ -20,11 +20,13 @@ const total = ref(0) // 总数
 
 // 获取数据
 const getSongList = async () => {
-  // 发送请求
-  const { data } = await reqSearch(searchObj.value)
-  // 保存数据
-  songlist.value = data.result.songs
-  total.value = data.result.songCount
+  try {
+    const { data } = await reqSearch(searchObj.value)
+    songlist.value = data.result.songs
+    total.value = data.result.songCount
+  } catch (error) {
+    console.error('Error fetching search songlist data:', error.message)
+  }
 }
 
 // 切换分页
@@ -32,8 +34,6 @@ const changeCurrent = () => {
   getSongList()
   smoothScrollToTop()
 }
-
-watchEffect(() => {})
 
 onMounted(() => {
   getSongList()
