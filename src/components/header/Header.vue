@@ -48,6 +48,17 @@ const togglePlayBar = () => {
               <span>播放器</span>
             </a-tooltip>
           </li>
+          <li>
+            <a
+              class="link hover-cp"
+              target="_blank"
+              href="https://github.com/EvanCookie/online-music"
+            >
+              <a-tooltip content="前往Github仓库">
+                <span>GitHub</span>
+              </a-tooltip></a
+            >
+          </li>
         </ul>
       </div>
 
@@ -65,7 +76,7 @@ const togglePlayBar = () => {
           <a-avatar>
             <img
               alt="avatar"
-              src="https://pic.imgdb.cn/item/670a79fed29ded1a8cf430f4.jpg"
+              src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
             />
           </a-avatar>
         </div>

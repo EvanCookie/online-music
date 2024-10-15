@@ -1,5 +1,10 @@
 <script setup name="SongList">
-defineProps(['songlist'])
+const props = defineProps({
+  songlist: {
+    type: Object,
+    required: true
+  }
+})
 import { formatDuration } from '@/utils/usertools'
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -31,7 +36,7 @@ const toArtistDetail = (id) => {
       <div class="time">时长</div>
     </li>
     <!-- 列表项 -->
-    <li class="song-item" v-for="(item, index) in songlist" :key="item.id">
+    <li class="song-item" v-for="(item, index) in props.songlist" :key="item.id">
       <div class="num">{{ index + 1 }}</div>
 
       <div class="song ellipsis">

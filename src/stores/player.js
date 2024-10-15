@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { reqSongUrl } from '@/api/player'
 
@@ -15,11 +15,20 @@ export const usePlayerStore = defineStore('player', () => {
 
   const songInfo = ref({}) // 歌曲信息
   const currentSongId = ref(null) // 当前歌曲id
-  const currentSongUrl = ref(null) // 当前歌曲url
+  const currentSongUrl = ref({}) // 当前歌曲url
   const isPlaying = ref(false) // 是否播放
   const volume = ref(0.5) // 默认音量
   const currentTime = ref(0) // 当前播放时间
-  const duration = ref(0) // 歌曲总时长
+  const duration = computed(() => {
+    const ms = currentSongUrl.value.time
+    const seconds = Math.floor((ms / 1000) % 60)
+    const minutes = Math.floor((ms / (1000 * 60)) % 60)
+
+    // 使用'MM:SS'格式
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+
+    return formattedTime
+  })
   const audio = new Audio() // 创建音频元素
 
   // 获取歌曲url并播放
@@ -27,15 +36,13 @@ export const usePlayerStore = defineStore('player', () => {
     // 判断songId 是否当前歌曲
     if (songId === currentSongId.value) return
 
-    console.log('ceshi')
-
     // 获取歌曲URL
     const { data } = await reqSongUrl(songId)
 
-    // 保存歌曲id & url
+    // 保存歌曲id & url数据
     currentSongId.value = songId
-    currentSongUrl.value = data.data[0].url
-    audio.src = currentSongUrl.value
+    currentSongUrl.value = data.data[0]
+    audio.src = currentSongUrl.value.url
 
     audio.play()
     showBar.value = true
