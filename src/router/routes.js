@@ -39,10 +39,5 @@ export default [
     path: '/search',
     component: () => import('@/views/search/Search.vue'),
     name: 'search'
-  },
-  {
-    path: '/player',
-    component: () => import('@/views/player/Player.vue'),
-    name: 'player'
   }
 ]

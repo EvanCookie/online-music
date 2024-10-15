@@ -3,8 +3,6 @@ import { ref } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 const playerStore = usePlayerStore()
 
-// 开始暂停按钮控制
-const playPause = ref(true)
 // 音量静音按钮控制
 const isVoice = ref(true)
 </script>
@@ -38,21 +36,25 @@ const isVoice = ref(true)
       </div>
       <div class="play-info">
         <div class="play-btns">
-          <div class="prev hover-cp"><icon-skip-previous-fill /></div>
-          <div class="play-pause-box hover-cp" @click="playPause = !playPause">
-            <div class="play" v-show="playPause">
+          <div class="prev hover-cp" @click="playerStore.previousSong">
+            <icon-skip-previous-fill />
+          </div>
+          <div class="play-pause-box hover-cp" @click="playerStore.playPause">
+            <div class="play" v-show="!playerStore.isPlaying">
               <icon-play-arrow-fill />
             </div>
-            <div class="pause" v-show="!playPause">
+            <div class="pause" v-show="playerStore.isPlaying">
               <icon-pause />
             </div>
           </div>
-          <div class="next hover-cp"><icon-skip-next-fill /></div>
+          <div class="next hover-cp" @click="playerStore.nextSong">
+            <icon-skip-next-fill />
+          </div>
         </div>
         <div class="play-slider">
-          <span>00:00</span>
+          <span>{{ playerStore.currentTime }}</span>
           <a-slider :default-value="0" :show-tooltip="false" />
-          <span>05:30</span>
+          <span>{{ playerStore.duration }}</span>
         </div>
       </div>
       <div class="action-right">

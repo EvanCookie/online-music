@@ -22,7 +22,7 @@ const toSearchPage = () => {
 
 // 切换play显示/隐藏
 const togglePlayBar = () => {
-  playerStore.setShowBar()
+  playerStore.toggleShowBar()
 }
 </script>
 

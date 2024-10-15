@@ -3,6 +3,10 @@
 body,
 html {
   height: 100%;
+}
+
+// 补充背景
+body {
   background-color: $bgc-color-1;
 }
 
@@ -14,6 +18,7 @@ html {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 /* 鼠标悬停显示 */
 .hover-cp {
   cursor: pointer;
@@ -27,7 +32,6 @@ html {
     'Heiti SC',
     'WenQuanYi Micro Hei',
     sans-serif;
-  color: #333;
   height: 100%;
   letter-spacing: 1px;
 }

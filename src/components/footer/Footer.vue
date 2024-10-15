@@ -25,6 +25,7 @@ const presentTime = ref(new Date().getFullYear())
   margin-top: 30px;
   padding: 20px 0;
   background-color: $bgc-color-2;
+
   // 版心容器
   .container {
     margin: 0 auto;

@@ -1,13 +1,14 @@
 <script setup name="SearchSongList">
 defineProps(['songlist'])
-import { Message } from '@arco-design/web-vue'
 import { formatDuration } from '@/utils/usertools'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+import { usePlayerStore } from '@/stores/player'
+const playerStore = usePlayerStore()
 
 // 跳转播放页面
 const toPlayAudio = (id) => {
-  Message.success('跳转播放页面' + id)
+  playerStore.fetchAndPlaySong(id)
 }
 
 // 跳转歌手详情
