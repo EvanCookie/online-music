@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { reqSongUrl } from '@/api/player'
+import { reqSongDetail, reqSongUrl } from '@/api/player'
 
 export const usePlayerStore = defineStore('player', () => {
   // 可控制playbar显示隐藏
@@ -14,13 +14,15 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   const songInfo = ref({}) // 歌曲信息
+  const songPic = ref('') // 歌曲pic
   const currentSongId = ref(null) // 当前歌曲id
   const currentSongUrl = ref({}) // 当前歌曲url
   const isPlaying = ref(false) // 是否播放
   const volume = ref(0.5) // 默认音量
   const currentTime = ref(0) // 当前播放时间
+  const formatcurrentTime = ref('00:00') // 格式化后的播放时间
   const duration = computed(() => {
-    const ms = currentSongUrl.value.time
+    const ms = songInfo.value.dt
     const seconds = Math.floor((ms / 1000) % 60)
     const minutes = Math.floor((ms / (1000 * 60)) % 60)
 
@@ -31,19 +33,30 @@ export const usePlayerStore = defineStore('player', () => {
   })
   const audio = new Audio() // 创建音频元素
 
+  // 获取音乐详情
+  const getSongDetail = async (id) => {
+    const { data } = await reqSongDetail(id)
+    // 保存详情
+    songInfo.value = data.songs[0]
+    // 保存图片
+    songPic.value = songInfo.value.al.picUrl
+  }
+
   // 获取歌曲url并播放
   const fetchAndPlaySong = async (songId) => {
-    // 判断songId 是否当前歌曲
-    if (songId === currentSongId.value) return
+    if (songId === currentSongId.value) return // 判断songId 是否当前歌曲
+    formatcurrentTime.value = '00:00'
+    audio.pause() // 判断暂停当前音乐
+    await getSongDetail(songId) // 获取音乐详情
 
-    // 获取歌曲URL
-    const { data } = await reqSongUrl(songId)
+    const { data } = await reqSongUrl(songId) // 获取歌曲URL
 
     // 保存歌曲id & url数据
     currentSongId.value = songId
-    currentSongUrl.value = data.data[0]
-    audio.src = currentSongUrl.value.url
+    currentSongUrl.value = data.data[0].url
+    audio.src = currentSongUrl.value
 
+    // 播放
     audio.play()
     showBar.value = true
     isPlaying.value = true
@@ -52,9 +65,6 @@ export const usePlayerStore = defineStore('player', () => {
     audio.ontimeupdate = () => {
       currentTime.value = audio.currentTime
     }
-
-    // 保存歌曲总时长
-    duration.value = audio.duration
   }
 
   // 播放/暂停
@@ -90,10 +100,12 @@ export const usePlayerStore = defineStore('player', () => {
 
   return {
     showBar,
+    songPic,
     audio,
     isPlaying,
     songInfo,
     currentTime,
+    formatcurrentTime,
     duration,
     volume,
     toggleShowBar,

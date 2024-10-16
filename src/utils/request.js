@@ -6,13 +6,21 @@ const baseURL = import.meta.env.VITE_BASE_API_URL
 
 const http = axios.create({
   baseURL,
-  timeout: 10000
+  timeout: 10000,
+  withCredentials: true // 设置 withCredentials 为 true
 })
 
 // 添加请求拦截器
 http.interceptors.request.use(
   (config) => {
-    // 在发送请求之前做些什么
+    // 检查请求是否已经有参数
+    if (config.params) {
+      // 如果已有参数，直接添加 realIP
+      config.params.realIP = '116.25.146.177'
+    } else {
+      // 如果没有参数，初始化 params 对象并添加 realIP
+      config.params = { realIP: '116.25.146.177' }
+    }
     return config
   },
   (error) => {

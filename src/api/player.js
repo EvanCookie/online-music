@@ -1,6 +1,17 @@
 import http from '@/utils/request'
 
 /**
+ * 获取音乐详情
+ * @param {*} ids 歌曲id
+ * @returns
+ */
+export const reqSongDetail = (ids) => {
+  return http.get('/song/detail', {
+    params: { ids }
+  })
+}
+
+/**
  * 获取歌曲播放地址
  * @param {*} id 歌曲id
  * @param {*} level 播放音质等级

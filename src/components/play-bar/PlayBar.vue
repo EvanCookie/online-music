@@ -1,5 +1,6 @@
 <script setup name="PlayBar">
 import { ref } from 'vue'
+import { formatTime } from '@/utils/usertools'
 import { usePlayerStore } from '@/stores/player'
 const playerStore = usePlayerStore()
 
@@ -14,23 +15,18 @@ const isVoice = ref(true)
         <div class="song-info">
           <div class="song-img">
             <a-avatar trigger-type="mask" shape="square" :size="80">
-              <img
-                alt="avatar"
-                src="https://img01.dmhmusic.com/0209/M00/44/FD/ChR47GWBYK6AUsi0ABk1sjxucBo180.jpg"
-              />
+              <img alt="avatar" :src="playerStore.songPic" />
               <template #trigger-icon>
                 <icon-expand size="30px" />
               </template>
             </a-avatar>
           </div>
-          <div class="song-artist">
-            <span class="song-name">心&nbsp;-&nbsp;</span>
-            <span>赵雷</span>
-          </div>
-          <div class="btns">
-            <div class="btn-item hover-cp"><icon-heart /></div>
-            <div class="btn-item hover-cp"><icon-download /></div>
-            <div class="btn-item hover-cp"><icon-launch /></div>
+          <div class="song-artist ellipsis">
+            <span class="song-name">{{ playerStore.songInfo.name }}&nbsp;-&nbsp;</span>
+            <span v-for="(i, index) in playerStore.songInfo.ar" :key="i.id">
+              <i v-if="index > 0"> / </i>
+              <span class="artist-item">{{ i.name }}</span>
+            </span>
           </div>
         </div>
       </div>
@@ -52,7 +48,7 @@ const isVoice = ref(true)
           </div>
         </div>
         <div class="play-slider">
-          <span>{{ playerStore.currentTime }}</span>
+          <span>{{ formatTime(playerStore.currentTime) }}</span>
           <a-slider :default-value="0" :show-tooltip="false" />
           <span>{{ playerStore.duration }}</span>
         </div>
@@ -135,18 +131,11 @@ $base-btn-font-size: 25px;
       }
       // 艺术家
       .song-artist {
+        width: 263px;
         margin-right: 20px;
 
         .song-name {
           color: $primary-color;
-        }
-      }
-      // 分享按钮
-      .btns {
-        display: flex;
-        font-size: $base-btn-font-size;
-        .btn-item {
-          margin-right: 25px;
         }
       }
     }

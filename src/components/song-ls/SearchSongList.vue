@@ -13,6 +13,7 @@ const playerStore = usePlayerStore()
 
 // 跳转播放页面
 const toPlayAudio = (id) => {
+  console.log(id)
   playerStore.fetchAndPlaySong(id)
 }
 
