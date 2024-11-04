@@ -9,14 +9,14 @@ import http from '@/utils/request'
  * @param {*} type 筛选类型
  * @returns
  */
-export const reqArtistData = ({ offset, initial, area, type, limit }) => {
+export const reqArtistData = ({ offset, initialPage, areaPage, typePage, limit }) => {
   return http.get('/artist/list', {
     params: {
       limit,
       offset: (offset - 1) * limit,
-      initial,
-      area,
-      type
+      initial: initialPage,
+      area: areaPage,
+      type: typePage
     }
   })
 }
